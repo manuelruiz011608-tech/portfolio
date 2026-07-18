@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manuel Ruiz — Projects</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0e13; --panel: #111820; --panel-line: #1e2833;
+    --text: #e7edf3; --text-dim: #8b9bab; --text-faint: #4c5a68;
+    --teal: #4fd1c5; --amber: #e8a33d;
+    --font-display: 'Space Grotesk', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg); color: var(--text); font-family: var(--font-body);
+    line-height: 1.6; -webkit-font-smoothing: antialiased;
+    background-image: linear-gradient(var(--panel-line) 1px, transparent 1px), linear-gradient(90deg, var(--panel-line) 1px, transparent 1px);
+    background-size: 48px 48px; background-attachment: fixed; background-position: center;
+  }
+  body::before {
+    content: ""; position: fixed; inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% -10%, rgba(79,209,197,0.08), transparent 60%);
+    pointer-events: none; z-index: 0;
+  }
+  a { color: var(--teal); text-decoration: none; }
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--teal); outline-offset: 3px; }
+  button { font-family: inherit; cursor: pointer; background: none; border: none; }
+  .wrap { max-width: 960px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+
+  .statusbar { border-bottom: 1px solid var(--panel-line); padding: 16px 0; }
+  .statusbar .wrap { display: flex; justify-content: space-between; align-items: center; font-family: var(--font-mono); font-size: 12px; color: var(--text-faint); letter-spacing: 0.05em; }
+  .statusbar .dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--teal); margin-right: 8px; box-shadow: 0 0 8px var(--teal); animation: pulse 2s ease-in-out infinite; }
+  .back-btn { color: var(--text-faint); font-family: var(--font-mono); font-size: 12px; }
+  .back-btn:hover { color: var(--teal); }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+  /* ===== VIEW: HOME ===== */
+  #view-home .hero { padding: 80px 0 60px; }
+  .eyebrow { font-family: var(--font-mono); font-size: 12px; color: var(--teal); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 18px; }
+  #view-home h1 { font-family: var(--font-display); font-weight: 700; font-size: clamp(2.4rem, 5.5vw, 3.6rem); letter-spacing: -0.02em; line-height: 1.05; margin-bottom: 20px; max-width: 680px; }
+  #view-home .hero p.sub { font-size: 1.1rem; color: var(--text-dim); max-width: 560px; }
+
+  section { padding: 60px 0; border-top: 1px solid var(--panel-line); }
+  .section-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 36px; }
+  .section-num { font-family: var(--font-mono); font-size: 13px; color: var(--text-faint); }
+  .section-head h2 { font-family: var(--font-display); font-size: 1.5rem; font-weight: 600; }
+
+  .projects-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+  .project-card {
+    background: var(--panel); border: 1px solid var(--panel-line); border-radius: 10px;
+    padding: 26px; display: block; text-align: left; width: 100%;
+    transition: border-color 0.15s ease, transform 0.15s ease;
+  }
+  button.project-card:hover { border-color: var(--teal); transform: translateY(-2px); }
+  .project-card .status { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 9px; border-radius: 4px; display: inline-block; margin-bottom: 16px; }
+  .status.shipped { background: rgba(79,209,197,0.12); color: var(--teal); }
+  .status.planned { background: rgba(139,155,171,0.1); color: var(--text-faint); }
+  .project-card h3 { font-family: var(--font-display); font-size: 1.3rem; margin-bottom: 8px; color: var(--text); }
+  .project-card p { font-size: 0.92rem; color: var(--text-dim); margin-bottom: 18px; }
+  .project-card .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .project-card .tag { font-family: var(--font-mono); font-size: 11px; color: var(--text-faint); border: 1px solid var(--panel-line); border-radius: 4px; padding: 2px 8px; }
+  .project-card.placeholder { opacity: 0.55; cursor: default; }
+  .arrow { font-family: var(--font-mono); font-size: 12px; color: var(--teal); margin-top: 4px; }
+
+  footer { padding: 50px 0 60px; text-align: center; border-top: 1px solid var(--panel-line); }
+  footer .signoff { font-family: var(--font-mono); font-size: 13px; color: var(--text-faint); }
+  footer .signoff strong { color: var(--teal); }
+
+  /* ===== VIEW: JARVIS CASE STUDY ===== */
+  #view-jarvis .hero { padding: 70px 0 60px; text-align: center; }
+  #view-jarvis h1 { font-family: var(--font-display); font-weight: 700; font-size: clamp(2.6rem, 6vw, 4.4rem); letter-spacing: -0.02em; line-height: 1.02; margin-bottom: 22px; }
+  #view-jarvis h1 span { color: var(--teal); }
+  #view-jarvis .hero p.sub { font-size: 1.15rem; color: var(--text-dim); max-width: 560px; margin: 0 auto 20px; }
+  #view-jarvis .hero p.sub strong { color: var(--text); font-weight: 500; }
+
+  .waveform { display: flex; align-items: flex-end; justify-content: center; gap: 4px; height: 48px; margin: 20px auto 0; }
+  .waveform span { display: block; width: 4px; background: var(--teal); border-radius: 2px; opacity: 0.85; animation: wave 1.2s ease-in-out infinite; }
+  @keyframes wave { 0%, 100% { transform: scaleY(0.3); } 50% { transform: scaleY(1); } }
+
+  .pipeline { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; position: relative; }
+  .pipeline::before { content: ""; position: absolute; top: 34px; left: 8%; right: 8%; height: 1px; background: repeating-linear-gradient(90deg, var(--panel-line) 0 6px, transparent 6px 12px); z-index: 0; }
+  .stage { position: relative; z-index: 1; text-align: center; padding: 0 8px; }
+  .stage .node { width: 68px; height: 68px; margin: 0 auto 18px; border-radius: 50%; background: var(--panel); border: 1px solid var(--panel-line); display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-size: 11px; color: var(--teal); }
+  .stage h3 { font-family: var(--font-display); font-size: 1rem; margin-bottom: 6px; }
+  .stage p { font-family: var(--font-mono); font-size: 12px; color: var(--text-dim); }
+
+  .log-entry { display: grid; grid-template-columns: 100px 1fr; gap: 20px; padding: 20px 0; border-bottom: 1px solid var(--panel-line); }
+  .log-entry:last-child { border-bottom: none; }
+  .log-time { font-family: var(--font-mono); font-size: 12px; color: var(--text-faint); padding-top: 3px; }
+  .log-entry h4 { font-family: var(--font-display); font-size: 1.05rem; font-weight: 500; margin-bottom: 6px; }
+  .log-entry p { color: var(--text-dim); font-size: 0.95rem; }
+  .tag { display: inline-block; font-family: var(--font-mono); font-size: 10.5px; padding: 2px 8px; border-radius: 4px; margin-left: 8px; vertical-align: middle; }
+  .tag.fixed { background: rgba(79,209,197,0.12); color: var(--teal); }
+  .tag.pivot { background: rgba(232,163,61,0.12); color: var(--amber); }
+
+  .stack-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; }
+  .stack-card { background: var(--panel); border: 1px solid var(--panel-line); border-radius: 8px; padding: 20px; }
+  .stack-card .role { font-family: var(--font-mono); font-size: 11px; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 10px; }
+  .stack-card h4 { font-family: var(--font-display); font-size: 1.1rem; margin-bottom: 6px; }
+  .stack-card p { font-size: 0.88rem; color: var(--text-dim); }
+  .stack-card .cost { margin-top: 12px; font-family: var(--font-mono); font-size: 12px; color: var(--teal); }
+
+  .skills-list { display: flex; flex-wrap: wrap; gap: 10px; }
+  .skill-pill { font-family: var(--font-mono); font-size: 12.5px; padding: 8px 14px; border: 1px solid var(--panel-line); border-radius: 20px; color: var(--text-dim); }
+
+  .hidden { display: none !important; }
+
+  @media (max-width: 640px) {
+    .projects-grid { grid-template-columns: 1fr; }
+    .pipeline { grid-template-columns: repeat(2, 1fr); row-gap: 40px; }
+    .pipeline::before { display: none; }
+    .log-entry { grid-template-columns: 1fr; gap: 4px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .waveform span, .statusbar .dot { animation: none; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="statusbar">
+    <div class="wrap">
+      <span id="statusbar-left"><span class="dot"></span>PORTFOLIO ONLINE</span>
+      <span>MANUEL RUIZ</span>
+    </div>
+  </div>
+
+  <!-- ===== HOME VIEW ===== -->
+  <div id="view-home">
+    <header class="hero">
+      <div class="wrap">
+        <div class="eyebrow">Projects</div>
+        <h1>Building toward an aerospace engineering career, one working project at a time.</h1>
+        <p class="sub">Self-taught, hands-on builds — real problems, real debugging, real trade-offs. This page grows as new projects ship.</p>
+      </div>
+    </header>
+
+    <section>
+      <div class="wrap">
+        <div class="section-head"><span class="section-num">01</span><h2>Shipped</h2></div>
+        <div class="projects-grid">
+          <button class="project-card" onclick="showView('jarvis')">
+            <span class="status shipped">Shipped</span>
+            <h3>Jarvis Mrk 2</h3>
+            <p>A voice assistant built from scratch — listens, thinks, and talks back, for $0, on an aging Intel MacBook Air.</p>
+            <div class="tags">
+              <span class="tag">Python</span><span class="tag">Whisper</span><span class="tag">Groq</span><span class="tag">edge-tts</span>
+            </div>
+            <div class="arrow">View case study →</div>
+          </button>
+
+          <div class="project-card placeholder">
+            <span class="status planned">In progress</span>
+            <h3>Next build</h3>
+            <p>Slot reserved. Next project lands here once shipped.</p>
+            <div class="tags"><span class="tag">TBD</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="wrap"><p class="signoff">Built by Manuel Ruiz. Case studies assisted by <strong>Claude</strong>.</p></div>
+    </footer>
+  </div>
+
+  <!-- ===== JARVIS CASE STUDY VIEW ===== -->
+  <div id="view-jarvis" class="hidden">
+    <header class="hero">
+      <div class="wrap">
+        <div class="eyebrow">Personal Project — Voice Assistant</div>
+        <h1>Jarvis <span>Mrk 2</span></h1>
+        <p class="sub">A voice assistant built from scratch in one sitting — <strong>listens, thinks, and talks back</strong> — running on an aging Intel MacBook Air, for $0.</p>
+        <div class="waveform" aria-hidden="true">
+          <span style="animation-delay:0s;height:20px"></span><span style="animation-delay:0.1s;height:36px"></span>
+          <span style="animation-delay:0.2s;height:14px"></span><span style="animation-delay:0.3s;height:44px"></span>
+          <span style="animation-delay:0.4s;height:26px"></span><span style="animation-delay:0.5s;height:40px"></span>
+          <span style="animation-delay:0.6s;height:18px"></span><span style="animation-delay:0.7s;height:32px"></span>
+        </div>
+      </div>
+    </header>
+
+    <section>
+      <div class="wrap">
+        <div class="section-head"><span class="section-num">01</span><h2>The pipeline</h2></div>
+        <p style="color:var(--text-dim); max-width:560px; margin-bottom:48px;">Three separate systems, handed off in sequence. The model in the middle never touches raw audio — it only ever sees text.</p>
+        <div class="pipeline">
+          <div class="stage"><div class="node">MIC</div><h3>Ears</h3><p>Whisper (local)</p></div>
+          <div class="stage"><div class="node">TXT</div><h3>Transcription</h3><p>voice → text</p></div>
+          <div class="stage"><div class="node">LLM</div><h3>Brain</h3><p>Groq · Llama 3.3 70B</p></div>
+          <div class="stage"><div class="node">SPK</div><h3>Voice</h3><p>edge-tts · en-GB-Ryan</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="section-head"><span class="section-num">02</span><h2>Build log</h2></div>
+        <div class="log-entry">
+          <div class="log-time">Stage 01</div>
+          <div><h4>Vault connected via MCP <span class="tag fixed">Fixed</span></h4>
+          <p>Wired Claude Desktop to a local Obsidian vault over the filesystem MCP server. Hit a macOS permissions wall — worked around it by relocating the vault out of the Desktop folder entirely.</p></div>
+        </div>
+        <div class="log-entry">
+          <div class="log-time">Stage 02</div>
+          <div><h4>Ears — Whisper + ffmpeg <span class="tag fixed">Fixed</span></h4>
+          <p>Homebrew's from-source ffmpeg build stalled over an hour on an aging Intel chip. Swapped to a prebuilt static binary. A numpy/torch version mismatch was resolved by pinning numpy to 1.x.</p></div>
+        </div>
+        <div class="log-entry">
+          <div class="log-time">Stage 03</div>
+          <div><h4>Brain — model provider <span class="tag pivot">Pivoted</span></h4>
+          <p>Started with the Claude API, hit a billing checkout bug. Pivoted to Groq's free tier running Llama 3.3 70B — fast, zero cost, swappable later.</p></div>
+        </div>
+        <div class="log-entry">
+          <div class="log-time">Stage 04</div>
+          <div><h4>Voice — text-to-speech <span class="tag fixed">Fixed</span></h4>
+          <p>Started with macOS's built-in <code>say</code> command, swapped to edge-tts for free neural voice quality — landed on en-GB-Ryan.</p></div>
+        </div>
+        <div class="log-entry">
+          <div class="log-time">Stage 05</div>
+          <div><h4>Shipped <span class="tag fixed">Done</span></h4>
+          <p>All three stages wired into one script with a continuous listen-think-speak loop, plus a one-word shell alias to launch it.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="section-head"><span class="section-num">03</span><h2>Stack</h2></div>
+        <div class="stack-grid">
+          <div class="stack-card"><div class="role">Speech-to-text</div><h4>Whisper</h4><p>Runs fully local, no internet required.</p><div class="cost">$0 / free</div></div>
+          <div class="stack-card"><div class="role">Language model</div><h4>Groq · Llama 3.3 70B</h4><p>Free tier, optimized for low-latency responses.</p><div class="cost">$0 / free</div></div>
+          <div class="stack-card"><div class="role">Text-to-speech</div><h4>edge-tts</h4><p>Neural voice quality, no API key needed.</p><div class="cost">$0 / free</div></div>
+          <div class="stack-card"><div class="role">Memory / context</div><h4>Obsidian vault</h4><p>Local markdown notes, connected over MCP.</p><div class="cost">$0 / free</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="section-head"><span class="section-num">04</span><h2>What it demonstrates</h2></div>
+        <div class="skills-list">
+          <span class="skill-pill">Python</span><span class="skill-pill">API integration</span><span class="skill-pill">Audio processing</span>
+          <span class="skill-pill">Async I/O</span><span class="skill-pill">Environment / PATH debugging</span><span class="skill-pill">Dependency resolution</span>
+          <span class="skill-pill">Local-first architecture</span><span class="skill-pill">Shell scripting</span><span class="skill-pill">Cost-constrained engineering</span>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="wrap"><p class="signoff">Built by Manuel Ruiz. Assisted by <strong>Claude</strong>, one debugging session at a time.</p></div>
+    </footer>
+  </div>
+
+<script>
+  function showView(view) {
+    var home = document.getElementById('view-home');
+    var jarvis = document.getElementById('view-jarvis');
+    var statusLeft = document.getElementById('statusbar-left');
+    if (view === 'jarvis') {
+      home.classList.add('hidden');
+      jarvis.classList.remove('hidden');
+      statusLeft.innerHTML = '<button class="back-btn" onclick="showView(\'home\')">← All projects</button>';
+    } else {
+      jarvis.classList.add('hidden');
+      home.classList.remove('hidden');
+      statusLeft.innerHTML = '<span class="dot"></span>PORTFOLIO ONLINE';
+    }
+    window.scrollTo(0, 0);
+  }
+</script>
+
+</body>
+</html>
